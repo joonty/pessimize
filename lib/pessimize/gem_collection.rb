@@ -1,3 +1,5 @@
+require_relative 'gem'
+
 module Pessimize
   class GemCollection
     def initialize
@@ -5,7 +7,7 @@ module Pessimize
     end
 
     def add_gem(*args)
-      @gems << args
+      @gems << Gem.new(*args)
     end
 
     def all

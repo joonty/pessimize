@@ -9,7 +9,9 @@ module Pessimize
       before { collection.add_gem('ponies', '>= 0.3.0') }
       subject { collection.all.first }
 
-      its(:first) { should == 'ponies' }
+      it { should be_a Gem }
+      its(:name)    { should == 'ponies' }
+      its(:version) { should == '>= 0.3.0' }
     end
   end
 end
