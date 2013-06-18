@@ -1,13 +1,15 @@
 require_relative 'gem'
+require_relative 'declaration'
 
 module Pessimize
   class GemCollection
-    attr_reader :gems
+    attr_reader :gems, :declarations
 
     def initialize
       @gems = Hash.new do |hash, missing|
         hash[missing] = []
       end
+      @declarations = []
     end
 
     def add_gem(*args)
@@ -15,7 +17,11 @@ module Pessimize
     end
 
     def add_grouped_gem(group, *args)
-      @gems[group] << Gem.new(*args)
+      self.gems[group] << Gem.new(*args)
+    end
+
+    def add_declaration(name, *args)
+      self.declarations << Declaration.new(name, *args)
     end
 
     def all
@@ -23,6 +29,6 @@ module Pessimize
     end
 
   protected
-    attr_writer :gems
+    attr_writer :gems, :declarations
   end
 end

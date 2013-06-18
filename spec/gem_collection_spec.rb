@@ -67,5 +67,14 @@ module Pessimize
         end
       end
     end
+
+    describe "#add_declaration" do
+      context "adding a source declaration" do
+        before { collection.add_declaration('source', 'https://rubygems.org') }
+        subject { collection.declarations.first }
+
+        it { should be_a Declaration }
+      end
+    end
   end
 end

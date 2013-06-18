@@ -75,5 +75,20 @@ gem 'ostriches', '0.0.1'
       end
     end
 
+    context "with a string containing a source declaration and a gem" do
+      let(:definition) { <<-EOD
+source "https://rubygems.org"
+gem 'ostriches', '0.0.1'
+        EOD
+      }
+      context "the collector" do
+        it "should receive the grouped gem message with correct arguments" do
+          collector.should_receive(:add_declaration).with('source', 'https://rubygems.org')
+          collector.should_receive(:add_gem).with('ostriches', '0.0.1')
+          dsl.parse definition
+        end
+      end
+    end
+
   end
 end

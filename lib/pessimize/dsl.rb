@@ -9,6 +9,10 @@ module Pessimize
       instance_eval definition
     end
 
+    def method_missing(name, *args)
+      collector.add_declaration(name.to_s, *args)
+    end
+
   protected
     attr_reader :collector
     attr_accessor :current_group
