@@ -2,19 +2,27 @@ require_relative 'gem'
 
 module Pessimize
   class GemCollection
+    attr_reader :gems
+
     def initialize
-      @gems = []
+      @gems = Hash.new do |hash, missing|
+        hash[missing] = []
+      end
     end
 
     def add_gem(*args)
-      @gems << Gem.new(*args)
+      add_grouped_gem(:global, *args)
+    end
+
+    def add_grouped_gem(group, *args)
+      @gems[group] << Gem.new(*args)
     end
 
     def all
-      gems
+      gems.values.flatten
     end
 
   protected
-    attr_accessor :gems
+    attr_writer :gems
   end
 end
