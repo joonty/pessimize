@@ -7,7 +7,7 @@ Gem::Specification.new do |gem|
   gem.name          = "pessimize"
   gem.version       = Pessimize::VERSION
   gem.authors       = ["Jon Cairns"]
-  gem.email         = ["jon@ggapps.co.uk"]
+  gem.email         = ["jon@joncairns.com"]
   gem.description   = %q{Add version numbers with the pessimistic constraint operator to all gems in your Gemfile}
   gem.summary       = %q{Add version numbers with the pessimistic constraint operator to all gems in your Gemfile}
   gem.homepage      = ""
