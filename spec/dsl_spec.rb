@@ -90,5 +90,19 @@ gem 'ostriches', '0.0.1'
       end
     end
 
+    context "with a string containing a git declaration and something unknown" do
+      let(:definition) { <<-EOD
+git 'git://github.com/wycats/thor.git', :tag => 'v0.13.4'
+unknown 'sausages'
+        EOD
+      }
+      context "the collector" do
+        it "should receive the grouped gem message with correct arguments" do
+          collector.should_receive(:add_declaration).with('git', 'git://github.com/wycats/thor.git', :tag => 'v0.13.4')
+          collector.should_receive(:add_declaration).with('unknown', 'sausages')
+          dsl.parse definition
+        end
+      end
+    end
   end
 end

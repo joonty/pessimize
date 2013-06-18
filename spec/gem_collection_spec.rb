@@ -74,6 +74,17 @@ module Pessimize
         subject { collection.declarations.first }
 
         it { should be_a Declaration }
+        its(:name) { should == 'source' }
+        its(:to_code) { should == 'source "https://rubygems.org"' }
+      end
+
+      context "adding a git declaration" do
+        before { collection.add_declaration('git', 'git://github.com/wycats/thor.git', :tag => 'v0.13.4') }
+        subject { collection.declarations.first }
+
+        it { should be_a Declaration }
+        its(:name) { should == 'git' }
+        its(:to_code) { should == 'git "git://github.com/wycats/thor.git", {:tag=>"v0.13.4"}' }
       end
     end
   end
