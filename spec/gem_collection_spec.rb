@@ -8,7 +8,8 @@ module Pessimize
     describe "#add_gem" do
       context "adding a gem with a version" do
         before { collection.add_gem('ponies', '>= 0.3.0') }
-        subject { collection.all.first }
+        let(:gem) { collection.all.first }
+        subject { gem }
 
         it { should be_a Gem }
         its(:name)    { should == 'ponies' }
@@ -16,6 +17,12 @@ module Pessimize
 
         it "should be the same as the first gem in the global group" do
           subject.should === collection.gems[:global].first
+        end
+
+        context "after setting the version" do
+          before { gem.version = '~> 0.3.1' }
+
+          its(:version) { should == '~> 0.3.1' }
         end
       end
 
