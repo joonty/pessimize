@@ -9,7 +9,7 @@ module Pessimize
     shared_examples "a collector receiving a gem" do |definition, *args|
       context "the collector" do
         it "should receive the gem message with correct arguments" do
-          collector.should_receive(:gem).with(*args)
+          collector.should_receive(:add_gem).with(*args)
           dsl.parse definition
         end
       end
@@ -33,8 +33,8 @@ gem 'shark', :require => false
       }
       context "the collector" do
         it "should receive the gem message with correct arguments" do
-          collector.should_receive(:gem).with('ponies', '>= 3.0.0')
-          collector.should_receive(:gem).with('shark', :require => false)
+          collector.should_receive(:add_gem).with('ponies', '>= 3.0.0')
+          collector.should_receive(:add_gem).with('shark', :require => false)
           dsl.parse definition
         end
       end
@@ -49,7 +49,7 @@ end
       }
       context "the collector" do
         it "should receive the grouped gem message with correct arguments" do
-          collector.should_receive(:grouped_gem).with(:test, 'ponies', '>= 3.0.0')
+          collector.should_receive(:add_grouped_gem).with(:test, 'ponies', '>= 3.0.0')
           dsl.parse definition
         end
       end
@@ -67,9 +67,9 @@ gem 'ostriches', '0.0.1'
       }
       context "the collector" do
         it "should receive the grouped gem message with correct arguments" do
-          collector.should_receive(:grouped_gem).with(:development, 'ponies', '>= 3.0.0')
-          collector.should_receive(:grouped_gem).with(:development, 'badgers', '~> 1.3.2', :require => false)
-          collector.should_receive(:gem).with('ostriches', '0.0.1')
+          collector.should_receive(:add_grouped_gem).with(:development, 'ponies', '>= 3.0.0')
+          collector.should_receive(:add_grouped_gem).with(:development, 'badgers', '~> 1.3.2', :require => false)
+          collector.should_receive(:add_gem).with('ostriches', '0.0.1')
           dsl.parse definition
         end
       end

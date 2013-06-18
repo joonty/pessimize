@@ -15,9 +15,9 @@ module Pessimize
 
     def gem(*args)
       if current_group
-        collector.grouped_gem(current_group, *args)
+        collector.add_grouped_gem(current_group, *args)
       else
-        collector.gem(*args)
+        collector.add_gem(*args)
       end
     end
 
