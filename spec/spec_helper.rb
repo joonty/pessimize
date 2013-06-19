@@ -28,7 +28,7 @@ module IntegrationHelper
   end
 
   def run(argument_string = '')
-    system "cd tmp && #{bin_path} #{argument_string}"
+    system "cd tmp && #{bin_path} #{argument_string} > /dev/null"
   end
 
   def write_gemfile(data)

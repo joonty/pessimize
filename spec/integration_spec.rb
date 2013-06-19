@@ -11,6 +11,16 @@ describe "running pessimize" do
     tear_down
   end
 
+  context "with no Gemfile" do
+    before do
+      run
+    end
+
+    subject { $?.exitstatus }
+
+    it { should == 1 }
+  end
+
   context "with a simple Gemfile and Gemfile.lock" do
     let(:gemfile) { <<-EOD
 gem 'json'
@@ -35,7 +45,7 @@ GEM
     end
 
     context "the return code" do
-      subject { $? }
+      subject { $?.exitstatus }
       it { should == 0 }
     end
 

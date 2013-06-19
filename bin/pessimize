@@ -1,5 +1,9 @@
 #!/usr/bin/env ruby
 
+unless File.exists? 'Gemfile'
+  $stderr.write "error: no Gemfile exists in the current directory, exiting"
+  exit 1
+end
 cmd = "cp Gemfile Gemfile.backup"
 puts cmd
 system cmd
