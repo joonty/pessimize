@@ -1,16 +1,14 @@
 require 'spec_helper'
 
 describe "running pessimize" do
-  let(:root_path) { File.realpath(File.dirname(__FILE__) + "/..") }
-  let(:bin_path)  { root_path + "/bin/pessimize" }
-  let(:tmp_path)  { root_path + "/tmp/" }
+  include IntegrationHelper
 
   before do
-    Dir.mkdir('tmp')
+    setup
   end
 
   after do
-    system "rm -r tmp"
+    tear_down
   end
 
   context "with a simple Gemfile and Gemfile.lock" do
@@ -30,15 +28,10 @@ GEM
     }
 
     before do
-      File.open(tmp_path + 'Gemfile', 'w') do |f|
-        f.write gemfile
-      end
+      write_gemfile(gemfile)
+      write_gemfile_lock(lockfile)
 
-      File.open(tmp_path + 'Gemfile.lock', 'w') do |f|
-        f.write lockfile
-      end
-
-      system "cd #{tmp_path} && #{bin_path}"
+      run
     end
 
     context "the return code" do
