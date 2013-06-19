@@ -45,6 +45,7 @@ GEM
       end
 
       it "should be the same as the original Gemfile" do
+        gemfile_backup_contents.should == gemfile
       end
     end
 

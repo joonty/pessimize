@@ -42,4 +42,12 @@ module IntegrationHelper
       f.write data
     end
   end
+
+  def gemfile_backup_contents
+    File.read(tmp_path + 'Gemfile.backup')
+  end
+
+  def gemfile_contents
+    File.read(tmp_path + 'Gemfile')
+  end
 end
