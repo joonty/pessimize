@@ -16,9 +16,17 @@ describe "running pessimize" do
       run
     end
 
-    subject { $?.exitstatus }
+    context "the exit status" do
+      subject { status.exitstatus }
 
-    it { should == 1 }
+      it { should == 1 }
+    end
+
+    context "the error output" do
+      subject { stderr }
+
+      it { should include("no Gemfile exists") }
+    end
   end
 
   context "with a simple Gemfile and Gemfile.lock" do
@@ -40,7 +48,6 @@ GEM
     before do
       write_gemfile(gemfile)
       write_gemfile_lock(lockfile)
-
       run
     end
 

@@ -1,5 +1,6 @@
 require 'rspec'
 require 'pessimize'
+require 'open3'
 
 def data_file(name)
   File.new(File.dirname(__FILE__) + '/data/' + name)
@@ -28,7 +29,23 @@ module IntegrationHelper
   end
 
   def run(argument_string = '')
-    system "cd tmp && #{bin_path} #{argument_string} > /dev/null"
+    Open3.popen3 "cd tmp && #{bin_path} #{argument_string} > /dev/null" do |_, io_stdout, io_stderr, thr|
+      @stdout = io_stdout.read
+      @stderr = io_stderr.read
+      @status = thr.value
+    end
+  end
+
+  def stdout
+    @stdout
+  end
+
+  def stderr
+    @stderr
+  end
+
+  def status
+    @status
   end
 
   def write_gemfile(data)
