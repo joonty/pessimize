@@ -57,6 +57,11 @@ GEM
       it { should == 0 }
     end
 
+    context "the stderr" do
+      subject { stderr }
+      it { should == "" }
+    end
+
     context "the Gemfile.backup" do
       it "should be created" do
         File.exists?(tmp_path + 'Gemfile.backup').should be_true
