@@ -4,7 +4,7 @@ describe "running pessimize" do
   include IntegrationHelper
 
   shared_examples "a working pessimizer" do |gemfile, lockfile, result|
-    before(:all) do
+    before do
       write_gemfile(gemfile)
       write_gemfile_lock(lockfile)
       run
