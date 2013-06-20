@@ -1,9 +1,61 @@
 #!/usr/bin/env ruby
+require 'pessimize'
 
 unless File.exists? 'Gemfile'
   $stderr.write "error: no Gemfile exists in the current directory, exiting"
   exit 1
 end
+
 cmd = "cp Gemfile Gemfile.backup"
 puts cmd
 system cmd
+
+unless $?.exitstatus == 0
+  $stderr.write "error: failed to backup existing Gemfile, exiting"
+  exit 2
+end
+
+require 'pessimize/dsl'
+require 'pessimize/gem_collection'
+require 'pessimize/gemfile_lock_version_parser'
+
+module Pessimize
+  def write_gems(f, gems)
+    gems.each do |gem|
+      f.write gem.to_code
+    end
+  end
+
+  collection = GemCollection.new
+  dsl = DSL.new collection
+  dsl.parse File.read('Gemfile')
+  lock_parser = GemfileLockVersionParser.new
+  lock_parser.call(File.open('Gemfile.lock'))
+  collection.all.each do |gem|
+    if lock_parser.versions.has_key? gem.name
+      gem.version = "~> #{lock_parser.versions[gem.name]}"
+    end
+  end
+
+  File.delete('Gemfile')
+  File.open('Gemfile', 'w') do |f|
+    collection.declarations.each do |dec|
+      f.write(dec.to_code)
+    end
+    f.write($\)
+    collection.gems.each do |gems|
+      if gems[:production].any?
+        write_gems gems[:production]
+      end
+      if gems[:development].any?
+        write_gems gems[:development]
+      end
+      if gems[:test].any?
+        write_gems gems[:test]
+      end
+      if gems[:global].any?
+        write_gems gems[:global]
+      end
+    end
+  end
+end

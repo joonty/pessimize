@@ -31,6 +31,7 @@ describe "running pessimize" do
 
   context "with a simple Gemfile and Gemfile.lock" do
     let(:gemfile) { <<-EOD
+source "https://rubygems.org"
 gem 'json'
 gem 'rake'
       EOD
@@ -64,6 +65,18 @@ GEM
       it "should be the same as the original Gemfile" do
         gemfile_backup_contents.should == gemfile
       end
+    end
+
+    context "the Gemfile" do
+      subject { gemfile_contents }
+
+      it { should == <<-EOD
+source "https://rubygems.org"
+
+gem "json", "~> 1.2.4"
+gem "rake", "~> 10.0.4"
+        EOD
+      }
     end
 
   end
