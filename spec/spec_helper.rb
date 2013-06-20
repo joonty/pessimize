@@ -10,9 +10,11 @@ end
 module IntegrationHelper
   def setup
     Dir.mkdir('tmp')
+    Dir.chdir('tmp')
   end
 
   def tear_down
+    Dir.chdir(root_path)
     system "rm -r tmp"
   end
 
@@ -29,7 +31,7 @@ module IntegrationHelper
   end
 
   def run(argument_string = '')
-    Open3.popen3 "cd tmp && ruby -I#{root_path}/lib #{bin_path} #{argument_string} > /dev/null" do |_, io_stdout, io_stderr, thr|
+    Open3.popen3 "ruby -I#{root_path}/lib #{bin_path} #{argument_string} > /dev/null" do |_, io_stdout, io_stderr, thr|
       @stdout = io_stdout.read
       @stderr = io_stderr.read
       @status = thr.value
