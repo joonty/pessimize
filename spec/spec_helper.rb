@@ -6,6 +6,11 @@ def data_file(name)
   File.new(File.dirname(__FILE__) + '/data/' + name)
 end
 
+RSpec.configure do |c|
+  c.filter_run_excluding :platform => lambda { |platform|
+    RUBY_PLATFORM.to_s == platform.to_s
+  }
+end
 
 module IntegrationHelper
   def setup
@@ -34,7 +39,7 @@ module IntegrationHelper
     Open3.popen3 "ruby -I#{root_path}/lib #{bin_path} #{argument_string} > /dev/null" do |_, io_stdout, io_stderr, thr|
       @stdout = io_stdout.read
       @stderr = io_stderr.read
-      @status = thr.value
+      @status = thr.value if thr
     end
   end
 
