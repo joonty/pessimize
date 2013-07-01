@@ -9,7 +9,7 @@ Anyone who works with a Gemfile, i.e. a project that uses [bundler][1].
 Pessimize adds version numbers with the pessimistic constraint operator (`~>`, a.k.a. "spermy" operator) to all gems in your `Gemfile`.
 
 ### Why?
-You should be using `~> x.x.x` to limit the version numbers of your gems, otherwise `bundle update` could potentially break your application. Read on for a more detailed description, or take a look at the [rubygems explanation][1].
+You should be using `~> x.x.x` to limit the version numbers of your gems, otherwise `bundle update` could potentially break your application. Read the section on "why bundle update can be dangerous" for a more detailed description, or take a look at the [rubygems explanation][1].
 
 ### But why a gem?
 
@@ -39,7 +39,11 @@ And that's it!
 
 ## Why `bundle update` can be dangerous
 
-TODO
+If you add gems to your Gemfile without specifying a version, bundler will attempt to get the latest stable version for that gem. When you first run `bundle install`, bundler will get and install the latest versions, then create a `Gemfile.lock` which specifies the versions used.
+
+This is fine until someone runs `bundle update`. In this case, bundler will try to update each gem to the maximum possible version. If no constraints have been applied, that means that **major** versions can potentially be incremented. Gems have interdependencies with other gems, and if those gems haven't specified the version constraints then breakages could occur.
+
+The pessimistic constraint operator will only allow the final number of the version string to increase. You can use this to only allow patch level upgrades, or minor (if you're feeling dangerous). This means that when you run `bundle update`, there's a limit on how far gems will update.
 
 ## Contributing
 
