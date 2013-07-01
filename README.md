@@ -1,5 +1,7 @@
 # Pessimize
 
+[![Build Status](https://travis-ci.org/joonty/pessimize.png?branch=master)](https://travis-ci.org/joonty/pessimize)
+
 ### Who is this for?
 Anyone who works with a Gemfile, i.e. a project that uses [bundler][1].
 
