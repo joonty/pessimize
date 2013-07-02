@@ -67,6 +67,68 @@ describe "running pessimize" do
     end
   end
 
+  context "with no Gemfile.lock" do
+    before do
+      write_gemfile "cheese"
+      run
+    end
+
+    context "the exit status", :platform => :java do
+      subject { status.exitstatus }
+
+      it { should == 2 }
+    end
+
+    context "the error output" do
+      subject { stderr }
+
+      it { should include("no Gemfile.lock exists") }
+      it { should include("Please run `bundle install`") }
+    end
+  end
+
+  context "with an unreadable Gemfile" do
+    before do
+      write_gemfile "cheese"
+      write_gemfile_lock "cheese"
+      system "chmod 222 Gemfile"
+      run
+    end
+
+    context "the exit status", :platform => :java do
+      subject { status.exitstatus }
+
+      it { should == 3 }
+    end
+
+    context "the error output" do
+      subject { stderr }
+
+      it { should include("failed to backup existing Gemfile, exiting") }
+    end
+  end
+
+  context "with an unreadable Gemfile.lock" do
+    before do
+      write_gemfile "cheese"
+      write_gemfile_lock "cheese"
+      system "chmod 222 Gemfile.lock"
+      run
+    end
+
+    context "the exit status", :platform => :java do
+      subject { status.exitstatus }
+
+      it { should == 4 }
+    end
+
+    context "the error output" do
+      subject { stderr }
+
+      it { should include("failed to backup existing Gemfile.lock, exiting") }
+    end
+  end
+
   context "with a simple Gemfile and Gemfile.lock" do
     gemfile = <<-EOD
 source "https://rubygems.org"

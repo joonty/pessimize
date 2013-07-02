@@ -6,13 +6,30 @@ unless File.exists? 'Gemfile'
   exit 1
 end
 
+unless File.exists? 'Gemfile.lock'
+  $stderr.write <<-ERR
+error: no Gemfile.lock exists in the current directory, exiting
+  Please run `bundle install` before running pessimize
+  ERR
+  exit 2
+end
+
 cmd = "cp Gemfile Gemfile.backup"
 puts cmd
 system cmd
 
 unless $?.exitstatus == 0
   $stderr.write "error: failed to backup existing Gemfile, exiting"
-  exit 2
+  exit 3
+end
+
+cmd = "cp Gemfile.lock Gemfile.lock.backup"
+puts cmd
+system cmd
+
+unless $?.exitstatus == 0
+  $stderr.write "error: failed to backup existing Gemfile.lock, exiting"
+  exit 4
 end
 
 require 'pessimize/main'
