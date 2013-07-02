@@ -15,49 +15,6 @@ unless $?.exitstatus == 0
   exit 2
 end
 
-require 'pessimize/dsl'
-require 'pessimize/gem_collection'
-require 'pessimize/gemfile_lock_version_parser'
+require 'pessimize/main'
 
-module Pessimize
-  def write_gems(f, gems, indent = 0)
-    gems.each do |gem|
-      f.write gem.to_code + $\
-    end
-  end
-
-  collection = GemCollection.new
-  dsl = DSL.new collection
-  dsl.parse File.read('Gemfile')
-  lock_parser = GemfileLockVersionParser.new
-  lock_parser.call(File.open('Gemfile.lock'))
-  collection.all.each do |gem|
-    if lock_parser.versions.has_key? gem.name
-      gem.version = "~> #{lock_parser.versions[gem.name]}"
-    end
-  end
-  $\ = "\n"
-
-  File.delete('Gemfile')
-  File.open('Gemfile', 'w') do |f|
-    collection.declarations.each do |dec|
-      f.write(dec.to_code)
-    end
-    f.write($\ * 2)
-    gem_groups = collection.gems
-    global_gems = gem_groups[:global]
-    gem_groups.delete :global
-    gem_groups.each do |group, gems|
-      f.write("group :#{group} do#{$\}")
-      gems.each do |gem|
-        f.write("  " + gem.to_code + $\)
-      end
-      f.write("end" + $\ + $\)
-    end
-    if global_gems
-      global_gems.each do |gem|
-        f.write(gem.to_code + $\)
-      end
-    end
-  end
-end
+Pessimize::Main.new.run
