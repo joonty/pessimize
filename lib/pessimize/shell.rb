@@ -29,6 +29,8 @@ module Pessimize
           Please run `bundle install` before running pessimize
       ERR
 
+      puts "Backing up Gemfile and Gemfile.lock"
+
       file_manager.backup_gemfile! or exit_with 3, <<-ERR.strip
         error: failed to backup existing Gemfile, exiting
       ERR
@@ -36,6 +38,7 @@ module Pessimize
       file_manager.backup_gemfile_lock! or exit_with 4, <<-ERR.strip
         error: failed to backup existing Gemfile.lock, exiting
       ERR
+      puts ""
     end
 
     def exit_with(status, message)
