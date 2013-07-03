@@ -12,6 +12,10 @@ module Pessimize
       File.exists? gemfile
     end
 
+    def gemfile_contents
+      File.read gemfile
+    end
+
     def gemfile_lock?
       File.exists? gemfile_lock
     end

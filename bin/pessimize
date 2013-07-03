@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 require 'pessimize'
-require 'pessimize/main'
+require 'pessimize/shell'
 
-Pessimize::Main.new.run
+Pessimize::Shell.new.run
