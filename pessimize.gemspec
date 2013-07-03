@@ -8,8 +8,10 @@ Gem::Specification.new do |gem|
   gem.version       = Pessimize::VERSION
   gem.authors       = ["Jon Cairns"]
   gem.email         = ["jon@joncairns.com"]
-  gem.description   = %q{Add version numbers with the pessimistic constraint operator to all gems in your Gemfile}
-  gem.summary       = %q{Add version numbers with the pessimistic constraint operator to all gems in your Gemfile}
+  gem.description   = %q{Add the pessimistic constraint operator to all gems in your Gemfile, restricting the maximum update version.
+
+This is for people who work with projects that use bundler, such as rails projects. The pessimistic constraint operator (~>) allows you to specify the maximum version that a gem can be updated, and reduces potential breakages when running `bundle update`.}
+  gem.summary       = %q{Add the pessimistic constraint operator to all gems in your Gemfile, restricting the maximum update version.}
   gem.homepage      = ""
 
   gem.add_development_dependency 'rspec', '~> 2.13.0'
