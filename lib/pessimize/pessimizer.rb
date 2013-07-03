@@ -26,10 +26,12 @@ module Pessimize
 
     def collect_gems_and_versions
       dsl.parse file_manager.gemfile_contents
+      puts "Collected #{collection.all.length} gems from #{file_manager.gemfile}"
       lock_parser.call File.open(file_manager.gemfile_lock)
     end
 
     def update_gem_versions
+      puts "Updating gem versions with pessimistic operator (~>)"
       collection.all.each do |gem|
         if lock_parser.versions.has_key? gem.name
           gem.version = "~> #{lock_parser.versions[gem.name]}"
@@ -60,6 +62,7 @@ module Pessimize
           end
         end
       end
+      puts "Written new Gemfile"
     end
 
   end
