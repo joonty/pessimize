@@ -197,6 +197,28 @@ gem "rake", "~> 10.0.4"
     it_behaves_like "a working pessimizer", gemfile, lockfile, result
   end
 
+  context "with a Gemfile containing multiple source statements" do
+    gemfile = <<-EOD
+source "https://rubygems.org"
+source 'https://somewhereelse.com'
+    EOD
+
+    lockfile = <<-EOD
+GEM
+  remote: https://rubygems.org/
+  specs:
+    json (1.8.0)
+    EOD
+
+    result = <<-EOD
+source "https://rubygems.org"
+source "https://somewhereelse.com"
+
+    EOD
+
+    it_behaves_like "a working pessimizer", gemfile, lockfile, result
+  end
+
   context "with a Gemfile containing gems with options" do
     gemfile = <<-EOD
 source "https://somewhere-else.org"

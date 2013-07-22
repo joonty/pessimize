@@ -43,9 +43,9 @@ module Pessimize
       File.delete(file_manager.gemfile)
       File.open(file_manager.gemfile, 'w') do |f|
         collection.declarations.each do |dec|
-          f.write(dec.to_code)
+          f.write(dec.to_code + sep)
         end
-        f.write sep(2)
+        f.write sep(1)
         gem_groups = collection.gems
         global_gems = gem_groups[:global]
         gem_groups.delete :global

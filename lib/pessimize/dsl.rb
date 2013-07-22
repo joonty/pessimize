@@ -25,7 +25,7 @@ module Pessimize
       end
     end
 
-    def group(name)
+    def group(name, *args)
       if block_given?
         self.current_group = name
         yield
