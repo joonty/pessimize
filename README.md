@@ -37,6 +37,12 @@ This backs up the existing `Gemfile` and creates a new one with everything neatl
 
 And that's it!
 
+## Known issues
+
+Pessimize evaluates the Gemfile as executable ruby code. That means that anything method-like will be retained in the output (e.g. `gem "nokogiri"`, or `source "https://rubygems.org"`), but anything else such as conditional statements will not.
+
+There are plans to fix this: [see this issue][3] for tracking the progress.
+
 ## Why `bundle update` can be dangerous
 
 If you add gems to your Gemfile without specifying a version, bundler will attempt to get the latest stable version for that gem. When you first run `bundle install`, bundler will get and install the latest versions, then create a `Gemfile.lock` which specifies the versions used.
@@ -55,3 +61,4 @@ The pessimistic constraint operator will only allow the final number of the vers
 
 [1]: http://gembundler.com
 [2]: http://docs.rubygems.org/read/chapter/16#page74
+[3]: https://github.com/joonty/pessimize/issues/5
