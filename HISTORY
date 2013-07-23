@@ -1,0 +1,13 @@
+=== Pessimize 0.0.3
+
+Bug fixes:
+ * Fix bug with multiple arguments to `group` not being recognised (issue #1)
+ * Fix missing newlines between statements in Gemfile (issue #2)
+
+Features:
+ * Better error messages when evaluating a Gemfile with errors (thanks @deepak, #3)
+
+=== Pessimize 0.0.2
+
+Features:
+ * Was born (we don't talk about v0.0.1)
