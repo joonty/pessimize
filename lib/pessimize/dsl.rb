@@ -6,7 +6,7 @@ module Pessimize
     end
 
     def parse(definition)
-      instance_eval definition
+      instance_eval definition, __FILE__, __LINE__
     end
 
     def method_missing(name, *args)
