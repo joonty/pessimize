@@ -75,6 +75,38 @@ gem 'ostriches', '0.0.1'
       end
     end
 
+    context "with a string containing a group definition with multiple arguments" do
+      let(:definition) { <<-EOD
+group :development, :test do
+  gem 'ponies', '>= 3.0.0'
+end
+        EOD
+      }
+      context "the collector" do
+        it "should receive the grouped gem message with correct arguments" do
+          collector.should_receive(:add_grouped_gem).with(:development, 'ponies', '>= 3.0.0')
+          collector.should_receive(:add_grouped_gem).with(:test, 'ponies', '>= 3.0.0')
+          dsl.parse definition
+        end
+      end
+    end
+
+    context "with a string containing a group definition with an array of groups" do
+      let(:definition) { <<-EOD
+group [:development, :test] do
+  gem 'ponies', '>= 3.0.0'
+end
+        EOD
+      }
+      context "the collector" do
+        it "should receive the grouped gem message with correct arguments" do
+          collector.should_receive(:add_grouped_gem).with(:development, 'ponies', '>= 3.0.0')
+          collector.should_receive(:add_grouped_gem).with(:test, 'ponies', '>= 3.0.0')
+          dsl.parse definition
+        end
+      end
+    end
+
     context "with a string containing a source declaration and a gem" do
       let(:definition) { <<-EOD
 source "https://rubygems.org"

@@ -197,6 +197,83 @@ gem "rake", "~> 10.0.4"
     it_behaves_like "a working pessimizer", gemfile, lockfile, result
   end
 
+  context "with a Gemfile containing a group with multiple arguments" do
+    gemfile = <<-EOD
+source "https://rubygems.org"
+gem 'json'
+gem 'rake'
+
+group :development, :test do
+  gem 'sqlite3', '>= 1.3.7'
+end
+    EOD
+
+    lockfile = <<-EOD
+GEM
+  remote: https://rubygems.org/
+  specs:
+    json (1.8.0)
+    rake (10.0.4)
+    sqlite3 (>= 1.3.7)
+    EOD
+
+    result = <<-EOD
+source "https://rubygems.org"
+
+group :development do
+  gem "sqlite3", "~> 1.3.7"
+end
+
+group :test do
+  gem "sqlite3", "~> 1.3.7"
+end
+
+gem "json", "~> 1.8.0"
+gem "rake", "~> 10.0.4"
+    EOD
+
+    it_behaves_like "a working pessimizer", gemfile, lockfile, result
+  end
+
+  context "with a Gemfile containing a group with an array argument" do
+    gemfile = <<-EOD
+source "https://rubygems.org"
+gem 'json'
+gem 'rake'
+
+group [:development, :test] do
+  gem 'sqlite3', '>= 1.3.7'
+end
+    EOD
+
+    lockfile = <<-EOD
+GEM
+  remote: https://rubygems.org/
+  specs:
+    json (1.8.0)
+    rake (10.0.4)
+    sqlite3 (>= 1.3.7)
+    EOD
+
+    result = <<-EOD
+source "https://rubygems.org"
+
+group :development do
+  gem "sqlite3", "~> 1.3.7"
+end
+
+group :test do
+  gem "sqlite3", "~> 1.3.7"
+end
+
+gem "json", "~> 1.8.0"
+gem "rake", "~> 10.0.4"
+    EOD
+
+    it_behaves_like "a working pessimizer", gemfile, lockfile, result
+  end
+
+
   context "with a Gemfile containing multiple source statements" do
     gemfile = <<-EOD
 source "https://rubygems.org"
