@@ -21,4 +21,5 @@ This is for people who work with projects that use bundler, such as rails projec
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^spec/})
   gem.require_paths = ["lib"]
+  gem.license       = 'MIT'
 end
