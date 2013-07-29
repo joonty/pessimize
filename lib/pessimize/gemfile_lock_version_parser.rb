@@ -1,3 +1,5 @@
+require 'bundler/lockfile_parser'
+
 module Pessimize
   class GemfileLockVersionParser
     attr_reader :versions
@@ -8,28 +10,17 @@ module Pessimize
     end
 
     def call(gemfile_lock_file)
-      gemfile_lock_file.each_line do |line|
-        if line.start_with? 'GEM'
-          self.parse_enabled = true
-        end
-        if parse_enabled
-          parse_line(line)
-        end
-      end
+      parser = Bundler::LockfileParser.new gemfile_lock_file.read
+      self.versions = collect_names_and_versions parser.specs
+      self
     end
 
   protected
-    attr_writer :versions
+    attr_writer   :versions
     attr_accessor :parse_enabled
 
-    def parse_line(line)
-      if line =~ /^\s{4}[a-z0-9]/i
-        line.strip!
-        matches = /([^(]+)\([^0-9]*([^)]+)/.match(line)
-        if matches
-          self.versions[matches[1].strip] = matches[2]
-        end
-      end
+    def collect_names_and_versions(specs)
+      Hash[specs.collect { |s| [s.name, s.version.to_s] }]
     end
   end
 end

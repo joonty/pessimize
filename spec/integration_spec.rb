@@ -175,8 +175,8 @@ GEM
   specs:
     json (1.8.0)
     rake (10.0.4)
-    pg (>= 0.15.0)
-    sqlite3 (>= 1.3.7)
+    pg (0.15.0)
+    sqlite3 (1.3.7)
     EOD
 
     result = <<-EOD
@@ -214,7 +214,7 @@ GEM
   specs:
     json (1.8.0)
     rake (10.0.4)
-    sqlite3 (>= 1.3.7)
+    sqlite3 (1.3.7)
     EOD
 
     result = <<-EOD
@@ -252,7 +252,7 @@ GEM
   specs:
     json (1.8.0)
     rake (10.0.4)
-    sqlite3 (>= 1.3.7)
+    sqlite3 (1.3.7)
     EOD
 
     result = <<-EOD
@@ -310,7 +310,7 @@ GIT
   revision: 8c481090ac928c78ed1f794b4e76b178e1ccf713
   specs:
     bf4-metric_fu (2.1.3.1)
-      activesupport (>= 2.0.0)
+      activesupport (2.0.0)
       arrayfields (= 4.7.4)
       bluff
       chronic (= 0.2.3)
@@ -320,7 +320,7 @@ GIT
       flay (= 1.2.1)
       flog (= 2.3.0)
       googlecharts
-      japgolly-Saikuro (>= 1.1.1.0)
+      japgolly-Saikuro (1.1.1.0)
       main (= 4.7.1)
       map (= 6.2.0)
       rails_best_practices (~> 0.6)
@@ -358,7 +358,7 @@ GIT
   revision: 8c481090ac928c78ed1f794b4e76b178e1ccf713
   specs:
     bf4-metric_fu (2.1.3.1)
-      activesupport (>= 2.0.0)
+      activesupport (2.0.0)
       arrayfields (= 4.7.4)
       bluff
       chronic (= 0.2.3)
@@ -368,7 +368,7 @@ GIT
       flay (= 1.2.1)
       flog (= 2.3.0)
       googlecharts
-      japgolly-Saikuro (>= 1.1.1.0)
+      japgolly-Saikuro (1.1.1.0)
       main (= 4.7.1)
       map (= 6.2.0)
       rails_best_practices (~> 0.6)

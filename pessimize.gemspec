@@ -14,6 +14,7 @@ This is for people who work with projects that use bundler, such as rails projec
   gem.summary       = %q{Add the pessimistic constraint operator to all gems in your Gemfile, restricting the maximum update version.}
   gem.homepage      = "https://github.com/joonty/pessimize"
 
+  gem.add_dependency 'bundler'
   gem.add_development_dependency 'rspec', '~> 2.13.0'
   gem.add_development_dependency 'rake', '~> 10.0.3'
 
