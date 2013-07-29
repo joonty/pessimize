@@ -1,4 +1,4 @@
-require 'bundler/lockfile_parser'
+require 'bundler'
 
 module Pessimize
   class GemfileLockVersionParser
