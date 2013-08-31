@@ -1,5 +1,6 @@
 require 'pessimize/file_manager'
 require 'pessimize/pessimizer'
+require 'trollop'
 
 module Pessimize
   class Shell
@@ -8,11 +9,17 @@ module Pessimize
     end
 
     def run
+      options = Trollop::options do
+        opt :version_constraint, "Version constraint ('minor' or 'patch')", default: 'minor', type: :string
+      end
+      unless %w(minor patch).include? options[:version_constraint]
+        Trollop::die :version_constraint, "must be either 'minor' or 'patch'"
+      end
       verify_files
-      Pessimizer.new(file_manager).run
+      Pessimizer.new(file_manager, options).run
     end
 
-  protected
+    protected
     attr_accessor :file_manager
 
     def sep(num = 1)

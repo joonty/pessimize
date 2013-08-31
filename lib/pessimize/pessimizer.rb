@@ -1,11 +1,13 @@
 require 'pessimize/dsl'
 require 'pessimize/gem_collection'
 require 'pessimize/gemfile_lock_version_parser'
+require 'pessimize/version_mapper'
 
 module Pessimize
   class Pessimizer
-    def initialize(file_manager)
+    def initialize(file_manager, options)
       self.file_manager = file_manager
+      self.options = options
       self.collection = GemCollection.new
       self.dsl = DSL.new collection
       self.lock_parser = GemfileLockVersionParser.new
@@ -18,7 +20,7 @@ module Pessimize
     end
 
   protected
-    attr_accessor :collection, :dsl, :lock_parser, :file_manager
+    attr_accessor :collection, :dsl, :lock_parser, :file_manager, :options
 
     def sep(num = 1)
       "\n" * num
@@ -32,11 +34,7 @@ module Pessimize
 
     def update_gem_versions
       puts "Updating gem versions with pessimistic operator (~>)"
-      collection.all.each do |gem|
-        if lock_parser.versions.has_key? gem.name
-          gem.version = "~> #{lock_parser.versions[gem.name]}"
-        end
-      end
+      VersionMapper.new.call(collection.all, lock_parser.versions, options[:version_constraint])
     end
 
     def write_new_gemfile

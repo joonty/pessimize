@@ -1,4 +1,3 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
+gemspec 
 
-# Specify your gem's dependencies in pessimize.gemspec
-gemspec
