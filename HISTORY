@@ -1,3 +1,12 @@
+=== Pessimize 0.1.0
+
+Features:
+ * Introduce proper command line interface, with help and various options
+ * Change default behaviour to constrain versions on the minor number, instead of patch (issue #8)
+ * Add command line option to change version level constraint (issue #8)
+ * Use Bundler's Gemfile.lock parser, instead of a custom parser (issue #7)
+ * Add license to gemspec (issue #6)
+
 === Pessimize 0.0.3
 
 Bug fixes:

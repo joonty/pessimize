@@ -9,7 +9,7 @@ Anyone who works with a Gemfile, i.e. a project that uses [bundler][1].
 Pessimize adds version numbers with the pessimistic constraint operator (`~>`, a.k.a. "spermy" operator) to all gems in your `Gemfile`.
 
 ### Why?
-You should be using `~> x.x.x` to limit the version numbers of your gems, otherwise `bundle update` could potentially break your application. Read the section on "why bundle update can be dangerous" for a more detailed description, or take a look at the [rubygems explanation][2].
+You should be using `~> x.x` to limit the version numbers of your gems, otherwise `bundle update` could potentially break your application. Read the section on "why bundle update can be dangerous" for a more detailed description, or take a look at the [rubygems explanation][2].
 
 ### But why a gem?
 
@@ -37,6 +37,31 @@ This backs up the existing `Gemfile` and creates a new one with everything neatl
 
 And that's it!
 
+### Options
+
+The executable has various options, which you can read with the `--help` argument:
+
+```bash
+Usage: pessimize [options]
+
+Add the pessimistic constraint operator to all gems in your Gemfile, restricting the maximum update
+version.
+
+Run this in a directory containing a Gemfile to apply the version constraint operator to all gems, at
+their current version. By default, it will restrict updates to the minor version number, but this can be
+changed to patch level updates.
+
+Options:
+  --version-constraint, -c <s>:   Version constraint ('minor' or 'patch') (default: minor)
+     --backup, --no-backup, -b:   Backup existing Gemfile and Gemfile.lock (default: true)
+                 --version, -v:   Print version and exit
+                    --help, -h:   Show this message
+```
+
+By default, the versions will be constrained to the minor version number (e.g. "~> 3.2"). If you supply the option `--version-constraint patch` then it will only allow updates on the patch version number (e.g. "~> 3.2.5").
+
+Also, by default, the Gemfile and Gemfile.lock are copied as a form of backup. To skip this backup (for instance, if you're confident that your Gemfile is committed into version control) then add the `--no-backup` option.
+
 ## Known issues
 
 Pessimize evaluates the Gemfile as executable ruby code. That means that anything method-like will be retained in the output (e.g. `gem "nokogiri"`, or `source "https://rubygems.org"`), but anything else such as conditional statements will not.
@@ -49,7 +74,7 @@ If you add gems to your Gemfile without specifying a version, bundler will attem
 
 This is fine until someone runs `bundle update`. In this case, bundler will try to update each gem to the maximum possible version. If no constraints have been applied, that means that **major** versions can potentially be incremented. Gems have interdependencies with other gems, and if those gems haven't specified the version constraints then breakages could occur.
 
-The pessimistic constraint operator will only allow the final number of the version string to increase. You can use this to only allow patch level upgrades, or minor (if you're feeling dangerous). This means that when you run `bundle update`, there's a limit on how far gems will update.
+The pessimistic constraint operator will only allow the final number of the version string to increase. You can use this to only allow patch or minor level upgrades. This means that when you run `bundle update`, there's a limit on how far gems will update.
 
 ## Contributing
 
