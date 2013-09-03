@@ -3,11 +3,11 @@ require 'spec_helper'
 describe "running pessimize" do
   include IntegrationHelper
 
-  shared_examples "a working pessimizer" do |gemfile, lockfile, result, cli_args = {}|
+  shared_examples "a working pessimizer" do |gemfile, lockfile, result, cli_args = ""|
     before do
       write_gemfile(gemfile)
       write_gemfile_lock(lockfile)
-      run(cli_args.map {|k, v| "-#{k} #{v}" }.join(" "))
+      run(cli_args)
     end
 
     context "after execution" do
@@ -41,12 +41,106 @@ describe "running pessimize" do
     end
   end
 
+  shared_examples "a working pessimizer without backups" do |gemfile, lockfile, result, cli_args = ""|
+    before do
+      write_gemfile(gemfile)
+      write_gemfile_lock(lockfile)
+      run(cli_args)
+    end
+
+    context "after execution" do
+
+      context "the stderr" do
+        subject { stderr }
+        it { should == "" }
+      end
+
+      # exclude from jruby
+      context "the return code" do
+        subject { $?.exitstatus }
+        it { should == 0 }
+      end
+
+      context "the Gemfile.backup" do
+        it "should not exist" do
+          File.exists?(tmp_path + 'Gemfile.backup').should be_false
+        end
+      end
+
+      context "the Gemfile.lock.backup" do
+        it "should not exist" do
+          File.exists?(tmp_path + 'Gemfile.lock.backup').should be_false
+        end
+      end
+
+      context "the Gemfile" do
+        subject { gemfile_contents }
+
+        it { should == result }
+      end
+    end
+  end
+
   before do
     setup
   end
 
   after do
     tear_down
+  end
+
+  context "with the help option" do
+    before do
+      run('--help')
+    end
+
+    context "the exit status", :platform => :java do
+      subject { status.exitstatus }
+
+      it { should == 0 }
+    end
+
+    context "the output" do
+      subject { stdout }
+
+      it { should include("Usage:") }
+    end
+  end
+
+  context "with the version option" do
+    before do
+      run('--version')
+    end
+
+    context "the exit status", :platform => :java do
+      subject { status.exitstatus }
+
+      it { should == 0 }
+    end
+
+    context "the output" do
+      subject { stdout }
+
+      it { should include(Pessimize::VERSION) }
+    end
+  end
+
+  context "with the version option" do
+    before do
+      run('-c rubbish')
+    end
+
+    context "the exit status", :platform => :java do
+      subject { status.exitstatus }
+
+      it { should == 255 }
+    end
+
+    context "the error output" do
+      subject { stderr }
+
+      it { should include("--version-constraint must be one of minor|patch") }
+    end
   end
 
   context "with no Gemfile" do
@@ -427,6 +521,44 @@ gem "json", "~> 1.8.0"
 gem "rake", "~> 10.0.4"
     EOD
 
-    it_behaves_like "a working pessimizer", gemfile, lockfile, result, v: 'patch'
+    it_behaves_like "a working pessimizer", gemfile, lockfile, result, '-c patch'
+  end
+
+  context "with the option to not have backups" do
+    gemfile = <<-EOD
+source "https://rubygems.org"
+gem 'json'
+gem 'rake'
+
+group :development, :test do
+  gem 'sqlite3', '>= 1.3.7'
+end
+    EOD
+
+    lockfile = <<-EOD
+GEM
+  remote: https://rubygems.org/
+  specs:
+    json (1.8.0)
+    rake (10.0.4)
+    sqlite3 (1.3.7)
+    EOD
+
+    result = <<-EOD
+source "https://rubygems.org"
+
+group :development do
+  gem "sqlite3", "~> 1.3"
+end
+
+group :test do
+  gem "sqlite3", "~> 1.3"
+end
+
+gem "json", "~> 1.8"
+gem "rake", "~> 10.0"
+    EOD
+
+    it_behaves_like "a working pessimizer without backups", gemfile, lockfile, result, '--no-backup'
   end
 end

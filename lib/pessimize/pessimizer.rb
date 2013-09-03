@@ -17,6 +17,7 @@ module Pessimize
       collect_gems_and_versions
       update_gem_versions
       write_new_gemfile
+      puts "~> written #{collection.all.length} gems to Gemfile, constrained to #{options[:version_constraint]} version updates\n\n"
     end
 
   protected
@@ -28,12 +29,10 @@ module Pessimize
 
     def collect_gems_and_versions
       dsl.parse file_manager.gemfile_contents
-      puts "Collected #{collection.all.length} gems from #{file_manager.gemfile}"
       lock_parser.call File.open(file_manager.gemfile_lock)
     end
 
     def update_gem_versions
-      puts "Updating gem versions with pessimistic operator (~>)"
       VersionMapper.new.call(collection.all, lock_parser.versions, options[:version_constraint])
     end
 
@@ -60,7 +59,6 @@ module Pessimize
           end
         end
       end
-      puts "Written new Gemfile"
     end
 
   end

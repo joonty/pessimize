@@ -31,7 +31,7 @@ module Pessimize
   private
     def backup_file!(file)
       cmd = "cp #{file} #{file}.backup"
-      puts cmd
+      puts " + #{cmd}"
       system cmd
       $?.exitstatus == 0
     end

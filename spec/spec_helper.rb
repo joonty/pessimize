@@ -36,7 +36,7 @@ module IntegrationHelper
   end
 
   def run(argument_string = '')
-    command = "ruby -I#{root_path}/lib #{bin_path} #{argument_string} > /dev/null"
+    command = "ruby -I#{root_path}/lib #{bin_path} #{argument_string}"
     Open3.popen3 command do |_, io_stdout, io_stderr, thr|
       @stdout = io_stdout.read
       @stderr = io_stderr.read
