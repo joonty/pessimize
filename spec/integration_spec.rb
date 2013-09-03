@@ -18,7 +18,7 @@ describe "running pessimize" do
       end
 
       # exclude from jruby
-      context "the return code" do
+      context "the return code", platform: :jruby do
         subject { $?.exitstatus }
         it { should == 0 }
       end
@@ -56,7 +56,7 @@ describe "running pessimize" do
       end
 
       # exclude from jruby
-      context "the return code" do
+      context "the return code", platform: :jruby do
         subject { $?.exitstatus }
         it { should == 0 }
       end
