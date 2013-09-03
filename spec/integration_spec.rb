@@ -3,11 +3,11 @@ require 'spec_helper'
 describe "running pessimize" do
   include IntegrationHelper
 
-  shared_examples "a working pessimizer" do |gemfile, lockfile, result|
+  shared_examples "a working pessimizer" do |gemfile, lockfile, result, cli_args = {}|
     before do
       write_gemfile(gemfile)
       write_gemfile_lock(lockfile)
-      run
+      run(cli_args.map {|k, v| "-#{k} #{v}" }.join(" "))
     end
 
     context "after execution" do
@@ -147,8 +147,8 @@ GEM
     result = <<-EOD
 source "https://rubygems.org"
 
-gem "json", "~> 1.8.0"
-gem "rake", "~> 10.0.4"
+gem "json", "~> 1.8"
+gem "rake", "~> 10.0"
     EOD
 
     it_behaves_like "a working pessimizer", gemfile, lockfile, result
@@ -183,15 +183,15 @@ GEM
 source "https://rubygems.org"
 
 group :development do
-  gem "sqlite3", "~> 1.3.7"
+  gem "sqlite3", "~> 1.3"
 end
 
 group :production do
-  gem "pg", "~> 0.15.0"
+  gem "pg", "~> 0.15"
 end
 
-gem "json", "~> 1.8.0"
-gem "rake", "~> 10.0.4"
+gem "json", "~> 1.8"
+gem "rake", "~> 10.0"
     EOD
 
     it_behaves_like "a working pessimizer", gemfile, lockfile, result
@@ -221,15 +221,15 @@ GEM
 source "https://rubygems.org"
 
 group :development do
-  gem "sqlite3", "~> 1.3.7"
+  gem "sqlite3", "~> 1.3"
 end
 
 group :test do
-  gem "sqlite3", "~> 1.3.7"
+  gem "sqlite3", "~> 1.3"
 end
 
-gem "json", "~> 1.8.0"
-gem "rake", "~> 10.0.4"
+gem "json", "~> 1.8"
+gem "rake", "~> 10.0"
     EOD
 
     it_behaves_like "a working pessimizer", gemfile, lockfile, result
@@ -259,15 +259,15 @@ GEM
 source "https://rubygems.org"
 
 group :development do
-  gem "sqlite3", "~> 1.3.7"
+  gem "sqlite3", "~> 1.3"
 end
 
 group :test do
-  gem "sqlite3", "~> 1.3.7"
+  gem "sqlite3", "~> 1.3"
 end
 
-gem "json", "~> 1.8.0"
-gem "rake", "~> 10.0.4"
+gem "json", "~> 1.8"
+gem "rake", "~> 10.0"
     EOD
 
     it_behaves_like "a working pessimizer", gemfile, lockfile, result
@@ -338,7 +338,7 @@ GEM
 source "https://somewhere-else.org"
 
 gem "metric_fu", {:git=>"https://github.com/joonty/metric_fu.git", :branch=>"master"}
-gem "kaminari", "~> 0.14.1", {:require=>false}
+gem "kaminari", "~> 0.14", {:require=>false}
     EOD
 
     it_behaves_like "a working pessimizer", gemfile, lockfile, result
@@ -386,9 +386,47 @@ GEM
 source "https://somewhere-else.org"
 
 gem "metric_fu", {:git=>"https://github.com/joonty/metric_fu.git", :branch=>"master"}
-gem "kaminari", "~> 0.14.1", {:require=>false}
+gem "kaminari", "~> 0.14", {:require=>false}
     EOD
 
     it_behaves_like "a working pessimizer", gemfile, lockfile, result
+  end
+
+  context "with the option to use patch level constraints" do
+    gemfile = <<-EOD
+source "https://rubygems.org"
+gem 'json'
+gem 'rake'
+
+group :development, :test do
+  gem 'sqlite3', '>= 1.3.7'
+end
+    EOD
+
+    lockfile = <<-EOD
+GEM
+  remote: https://rubygems.org/
+  specs:
+    json (1.8.0)
+    rake (10.0.4)
+    sqlite3 (1.3.7)
+    EOD
+
+    result = <<-EOD
+source "https://rubygems.org"
+
+group :development do
+  gem "sqlite3", "~> 1.3.7"
+end
+
+group :test do
+  gem "sqlite3", "~> 1.3.7"
+end
+
+gem "json", "~> 1.8.0"
+gem "rake", "~> 10.0.4"
+    EOD
+
+    it_behaves_like "a working pessimizer", gemfile, lockfile, result, v: 'patch'
   end
 end
