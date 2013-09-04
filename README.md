@@ -1,5 +1,6 @@
 # Pessimize
 
+[![Gem Version](https://badge.fury.io/rb/pessimize.png)](http://badge.fury.io/rb/pessimize)
 [![Build Status](https://travis-ci.org/joonty/pessimize.png?branch=master)](https://travis-ci.org/joonty/pessimize)
 
 ### Who is this for?
