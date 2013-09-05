@@ -12,7 +12,7 @@ describe "running pessimize" do
 
     context "after execution" do
 
-      context "the stderr" do
+      context "the stderr", platform: :jruby do
         subject { stderr }
         it { should == "" }
       end
