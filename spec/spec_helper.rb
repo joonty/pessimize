@@ -1,6 +1,7 @@
 require 'rspec'
 require 'pessimize'
 require 'open3'
+require 'ripper'
 
 def data_file(name)
   File.new(File.dirname(__FILE__) + '/data/' + name)
