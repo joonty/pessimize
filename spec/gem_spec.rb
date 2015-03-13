@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'pessimize/gem.rb'
+require 'pessimize/gem'
 
 module Pessimize
   describe Gem do

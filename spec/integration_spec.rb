@@ -240,9 +240,8 @@ GEM
 
     result = <<-EOD
 source "https://rubygems.org"
-
-gem "json", "~> 1.8"
-gem "rake", "~> 10.0"
+gem 'json', "~> 1.8"
+gem 'rake', "~> 10.0"
     EOD
 
     it_behaves_like "a working pessimizer", gemfile, lockfile, result
@@ -275,17 +274,16 @@ GEM
 
     result = <<-EOD
 source "https://rubygems.org"
+gem 'json', "~> 1.8"
+gem 'rake', "~> 10.0"
 
 group :development do
-  gem "sqlite3", "~> 1.3"
+  gem 'sqlite3', '~> 1.3'
 end
 
 group :production do
-  gem "pg", "~> 0.15"
+  gem 'pg', '~> 0.15', '<= 0.15.2'
 end
-
-gem "json", "~> 1.8"
-gem "rake", "~> 10.0"
     EOD
 
     it_behaves_like "a working pessimizer", gemfile, lockfile, result
@@ -313,17 +311,12 @@ GEM
 
     result = <<-EOD
 source "https://rubygems.org"
+gem 'json', "~> 1.8"
+gem 'rake', "~> 10.0"
 
-group :development do
-  gem "sqlite3", "~> 1.3"
+group :development, :test do
+  gem 'sqlite3', '~> 1.3'
 end
-
-group :test do
-  gem "sqlite3", "~> 1.3"
-end
-
-gem "json", "~> 1.8"
-gem "rake", "~> 10.0"
     EOD
 
     it_behaves_like "a working pessimizer", gemfile, lockfile, result
@@ -351,17 +344,12 @@ GEM
 
     result = <<-EOD
 source "https://rubygems.org"
+gem 'json', "~> 1.8"
+gem 'rake', "~> 10.0"
 
-group :development do
-  gem "sqlite3", "~> 1.3"
+group [:development, :test] do
+  gem 'sqlite3', '~> 1.3'
 end
-
-group :test do
-  gem "sqlite3", "~> 1.3"
-end
-
-gem "json", "~> 1.8"
-gem "rake", "~> 10.0"
     EOD
 
     it_behaves_like "a working pessimizer", gemfile, lockfile, result
@@ -383,8 +371,7 @@ GEM
 
     result = <<-EOD
 source "https://rubygems.org"
-source "https://somewhereelse.com"
-
+source 'https://somewhereelse.com'
     EOD
 
     it_behaves_like "a working pessimizer", gemfile, lockfile, result
@@ -430,9 +417,9 @@ GEM
 
     result = <<-EOD
 source "https://somewhere-else.org"
+gem 'metric_fu', :git => 'https://github.com/joonty/metric_fu.git', :branch => 'master'
 
-gem "metric_fu", {:git=>"https://github.com/joonty/metric_fu.git", :branch=>"master"}
-gem "kaminari", "~> 0.14", {:require=>false}
+gem "kaminari", "~> 0.14", :require => false
     EOD
 
     it_behaves_like "a working pessimizer", gemfile, lockfile, result
@@ -478,9 +465,9 @@ GEM
 
     result = <<-EOD
 source "https://somewhere-else.org"
+gem 'metric_fu', :git => 'https://github.com/joonty/metric_fu.git', :branch => 'master'
 
-gem "metric_fu", {:git=>"https://github.com/joonty/metric_fu.git", :branch=>"master"}
-gem "kaminari", "~> 0.14", {:require=>false}
+gem "kaminari", "~> 0.14", :require => false
     EOD
 
     it_behaves_like "a working pessimizer", gemfile, lockfile, result
@@ -508,17 +495,12 @@ GEM
 
     result = <<-EOD
 source "https://rubygems.org"
+gem 'json', "~> 1.8.0"
+gem 'rake', "~> 10.0.4"
 
-group :development do
-  gem "sqlite3", "~> 1.3.7"
+group :development, :test do
+  gem 'sqlite3', '~> 1.3.7'
 end
-
-group :test do
-  gem "sqlite3", "~> 1.3.7"
-end
-
-gem "json", "~> 1.8.0"
-gem "rake", "~> 10.0.4"
     EOD
 
     it_behaves_like "a working pessimizer", gemfile, lockfile, result, '-c patch'
@@ -546,17 +528,12 @@ GEM
 
     result = <<-EOD
 source "https://rubygems.org"
+gem 'json', "~> 1.8"
+gem 'rake', "~> 10.0"
 
-group :development do
-  gem "sqlite3", "~> 1.3"
+group :development, :test do
+  gem 'sqlite3', '~> 1.3'
 end
-
-group :test do
-  gem "sqlite3", "~> 1.3"
-end
-
-gem "json", "~> 1.8"
-gem "rake", "~> 10.0"
     EOD
 
     it_behaves_like "a working pessimizer without backups", gemfile, lockfile, result, '--no-backup'

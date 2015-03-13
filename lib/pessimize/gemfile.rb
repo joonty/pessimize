@@ -14,8 +14,11 @@ module Pessimize
 
     def to_s
       compiled_tokens = tokens.dup
+      current_offset = 0
       gem_token_map.zip(gems).each do |(tok_start, tok_end), gem|
-        compiled_tokens[tok_start..tok_end] = gem.tokens
+        gem_tokens = gem.tokens
+        compiled_tokens[(current_offset + tok_start)..(current_offset + tok_end)] = gem_tokens
+        current_offset += gem_tokens.length - (tok_end - tok_start + 1)
       end
       compiled_tokens.inject("") { |a, e|
         a + e[2]
@@ -34,12 +37,11 @@ module Pessimize
 
         if tok[1] == :on_ident && tok[2] == "gem"
           gem_toks = []
-          begin
+          until [:on_nl].include?(enum.peek[0][1])
             (tok, j) = enum.next
             gem_toks << tok
-          end until [:on_nl].include?(enum.peek[0][1])
+          end
 
-          p gem_toks
           self.gems << Pessimize::Gem.new(gem_toks)
           self.gem_token_map << [i + 1, j]
         end
