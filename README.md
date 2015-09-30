@@ -65,9 +65,9 @@ Also, by default, the Gemfile and Gemfile.lock are copied as a form of backup. T
 
 ## Known issues
 
-Pessimize evaluates the Gemfile as executable ruby code. That means that anything method-like will be retained in the output (e.g. `gem "nokogiri"`, or `source "https://rubygems.org"`), but anything else such as conditional statements will not.
+Pessimize parses the Gemfile as tokens, and does some tricky stuff to replace or insert version numbers. However, this is fairly experimental and there are plans to use a proper ruby parser, which should be more reliable and cut out the edge cases. It *should* currently work for the majority of cases, but there are no guarantees.
 
-There are plans to fix this: [see this issue][3] for tracking the progress.
+[See this issue][3] for tracking the progress.
 
 ## Why `bundle update` can be dangerous
 
