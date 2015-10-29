@@ -12,13 +12,13 @@ describe "running pessimize" do
 
     context "after execution" do
 
-      context "the stderr", platform: :jruby do
+      context "the stderr", exclude_platform: :java do
         subject { stderr }
         it { should == "" }
       end
 
       # exclude from jruby
-      context "the return code", platform: :jruby do
+      context "the return code", exclude_platform: :java do
         subject { $?.exitstatus }
         it { should == 0 }
       end
@@ -56,7 +56,7 @@ describe "running pessimize" do
       end
 
       # exclude from jruby
-      context "the return code", platform: :jruby do
+      context "the return code", exclude_platform: :java do
         subject { $?.exitstatus }
         it { should == 0 }
       end

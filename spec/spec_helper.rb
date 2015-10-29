@@ -8,7 +8,7 @@ def data_file(name)
 end
 
 RSpec.configure do |c|
-  c.filter_run_excluding :platform => lambda { |platform|
+  c.filter_run_excluding :exclude_platform => lambda { |platform|
     RUBY_PLATFORM.to_s == platform.to_s
   }
 end
