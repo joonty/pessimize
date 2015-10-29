@@ -1,3 +1,8 @@
+=== Pessimize 0.2.0
+
+Features:
+ * Use token parsing instead of interpreting the Gemfile, which allows the Gemfile formatting to be retained (issue #5)
+
 === Pessimize 0.1.0
 
 Features:
