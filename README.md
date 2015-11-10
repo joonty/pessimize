@@ -2,6 +2,8 @@
 
 [![Gem Version](https://badge.fury.io/rb/pessimize.png)](http://badge.fury.io/rb/pessimize)
 [![Build Status](https://travis-ci.org/joonty/pessimize.png?branch=master)](https://travis-ci.org/joonty/pessimize)
+[![Code Climate](https://codeclimate.com/github/joonty/pessimize/badges/gpa.svg)](https://codeclimate.com/github/joonty/pessimize)
+[![Test Coverage](https://codeclimate.com/github/joonty/pessimize/badges/coverage.svg)](https://codeclimate.com/github/joonty/pessimize/coverage)
 
 ### Who is this for?
 Anyone who works with a Gemfile, i.e. a project that uses [bundler][1].
