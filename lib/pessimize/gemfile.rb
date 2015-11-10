@@ -3,33 +3,25 @@ require 'pessimize/gem'
 
 module Pessimize
   class Gemfile
-    attr_reader :tokens, :gems
+    attr_reader :gems
 
     def initialize(contents)
-      self.tokens = Ripper.lex(contents)
-      self.gems = []
+      self.tokens        = Ripper.lex(contents)
+      self.gems          = []
       self.gem_token_map = []
-      parse_tokens!
+
+      parse_gems_from_tokens!
     end
 
     def to_s
-      compiled_tokens = tokens.dup
-      current_offset = 0
-      gem_token_map.zip(gems).each do |(tok_start, tok_end), gem|
-        gem_tokens = gem.tokens
-        compiled_tokens[(current_offset + tok_start)..(current_offset + tok_end)] = gem_tokens
-        current_offset += gem_tokens.length - (tok_end - tok_start + 1)
-      end
-      compiled_tokens.inject("") { |a, e|
-        a + e[2]
-      }
+      TokenCompiler.new(tokens).compile_to_string(gems, gem_token_map)
     end
 
   protected
-    attr_writer :gems, :tokens
-    attr_accessor :gem_token_map
+    attr_writer :gems
+    attr_accessor :gem_token_map, :tokens
 
-    def parse_tokens!
+    def parse_gems_from_tokens!
       enum = tokens.each_with_index
 
       loop do
@@ -47,6 +39,31 @@ module Pessimize
         end
       end
     rescue StopIteration
+    end
+
+    class TokenCompiler
+      def initialize(tokens)
+        self.tokens = tokens.dup
+        self.offset = 0
+      end
+
+      def compile_to_string(gems, gem_token_map)
+        gem_token_map.zip(gems).each do |(token_start, token_end), gem|
+          insert_gem_into_tokens! gem, token_start, token_end
+        end
+
+        tokens.reduce("") { |a, e|
+          a + e[2]
+        }
+      end
+
+    protected
+      attr_accessor :tokens, :offset
+
+      def insert_gem_into_tokens!(gem, token_start, token_end)
+        self.tokens[(offset + token_start)..(offset + token_end)] = gem.tokens
+        self.offset += gem.tokens.length - (token_end - token_start + 1)
+      end
     end
   end
 end
