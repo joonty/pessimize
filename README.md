@@ -67,9 +67,7 @@ Also, by default, the Gemfile and Gemfile.lock are copied as a form of backup. T
 
 ## Known issues
 
-Pessimize parses the Gemfile as tokens, and does some tricky stuff to replace or insert version numbers. However, this is fairly experimental and there are plans to use a proper ruby parser, which should be more reliable and cut out the edge cases. It *should* currently work for the majority of cases, but there are no guarantees.
-
-[See this issue][3] for tracking the progress.
+Recent issues with certain Gemfile syntax edge cases have been fixed, so there are currently no known issues. If you do find pessimize doing something strange, or not correctly picking up information in your Gemfile, it would be greatly appreciated if you submit an issue.
 
 ## Why `bundle update` can be dangerous
 

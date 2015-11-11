@@ -1,3 +1,14 @@
+=== Pessimize 0.3.0
+
+Features:
+ * Increased compatibility with Gemfile syntax, which should support
+ practically all Gemfiles.
+ * Some minor refactoring for clarity (ongoing, as always)
+
+Bug fixes:
+ * Fix issue with certain valid ruby expressions not being parsed correctly,
+ e.g. new lines in "gem" definitions
+
 === Pessimize 0.2.0
 
 Features:
