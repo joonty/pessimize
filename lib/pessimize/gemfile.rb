@@ -29,7 +29,7 @@ module Pessimize
 
         if tok[1] == :on_ident && tok[2] == "gem"
           gem_toks = []
-          until [:on_nl].include?(enum.peek[0][1])
+          until all_gem_tokens_collected?(tok[0], enum.peek[0])
             (tok, j) = enum.next
             gem_toks << tok
           end
@@ -39,6 +39,10 @@ module Pessimize
         end
       end
     rescue StopIteration
+    end
+
+    def all_gem_tokens_collected?(current_token, next_token)
+      next_token[1] == :on_nl
     end
 
     class TokenCompiler

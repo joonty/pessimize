@@ -538,4 +538,53 @@ end
 
     it_behaves_like "a working pessimizer without backups", gemfile, lockfile, result, '--no-backup'
   end
+
+  context "with a Gemfile using new lines for gem definitions" do
+    gemfile = <<-EOD
+source "https://rubygems.org"
+gem 'json',
+  group: :production
+
+gem 'pessimize',
+  github: "joonty/pessimize"
+
+group :development, :test do
+  gem 'sqlite3',
+    '>= 1.3.7'
+end
+    EOD
+
+    lockfile = <<-EOD
+GIT
+  remote: git://github.com/joonty/pessimize.git
+  revision: 40f6ec6c7483a453b72e09efbba0e0d7de3b37ab
+  specs:
+    pessimize (0.2.0)
+      bundler
+      trollop
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    json (1.8.0)
+    trollop (2.1.2)
+    sqlite3 (1.3.7)
+    EOD
+
+    result = <<-EOD
+source "https://rubygems.org"
+gem 'json', "~> 1.8",
+  group: :production
+
+gem 'pessimize',
+  github: "joonty/pessimize"
+
+group :development, :test do
+  gem 'sqlite3',
+    '~> 1.3'
+end
+    EOD
+
+    it_behaves_like "a working pessimizer", gemfile, lockfile, result
+  end
 end

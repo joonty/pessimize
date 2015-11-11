@@ -70,5 +70,29 @@ module Pessimize
       end
 
     end
+
+    context "creating a gem using new lines for arguments" do
+      let(:gem_string) { <<GEM.strip
+gem "blah",
+  "2.0.0beta",
+  group: :development
+GEM
+      }
+
+      let(:gem) { Gem.new(Ripper.lex(gem_string)) }
+      subject { gem }
+
+      its(:name) { should == "blah" }
+      its(:version) { should == "2.0.0beta" }
+
+      context "after setting the version" do
+        before do
+          gem.version = "~> 2.1"
+        end
+
+        its(:to_s) { should == %Q(gem "blah",\n  "~> 2.1",\n  group: :development) }
+      end
+
+    end
   end
 end

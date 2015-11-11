@@ -49,7 +49,7 @@ module Pessimize
       token_before_version = original_tokens.index { |t| t[1] == :on_comma }
       if token_before_version
         remaining_tokens = original_tokens[(token_before_version + 1)..-1]
-        while [:on_sp, :on_tstring_beg].include? remaining_tokens.first[1]
+        while [:on_sp, :on_tstring_beg, :on_ignored_nl].include? remaining_tokens.first[1]
           remaining_tokens.shift
           token_before_version += 1
         end
