@@ -42,7 +42,7 @@ module Pessimize
     end
 
     def all_gem_tokens_collected?(current_token, next_token)
-      next_token[1] == :on_nl
+      [:on_nl, :on_comment].include?(next_token[1])
     end
 
     class TokenCompiler

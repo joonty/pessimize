@@ -1,6 +1,7 @@
 === Pessimize 0.4.0
 * Specify version of codeclimate-test-reporter to avert a breaking change (introduced in 1.0.0)
 * Fix documentation link for pessimistic operator (issue #19)
+* Support comments in the Gemfile tokenization (issue #15)
 
 === Pessimize 0.3.0
 
