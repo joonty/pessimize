@@ -86,5 +86,5 @@ The pessimistic constraint operator will only allow the final number of the vers
 5. Create new Pull Request
 
 [1]: http://gembundler.com
-[2]: http://docs.rubygems.org/read/chapter/16#page74
+[2]: http://guides.rubygems.org/patterns/#declaring-dependencies
 [3]: https://github.com/joonty/pessimize/issues/5
