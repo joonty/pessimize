@@ -18,7 +18,7 @@ This is for people who work with projects that use bundler, such as rails projec
   gem.add_dependency 'trollop'
   gem.add_development_dependency 'rspec', '~> 2.13.0'
   gem.add_development_dependency 'rake', '~> 10.0.3'
-  gem.add_development_dependency "codeclimate-test-reporter"
+  gem.add_development_dependency 'codeclimate-test-reporter', '~> 0.6.0'
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
