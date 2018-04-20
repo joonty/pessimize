@@ -71,6 +71,22 @@ module Pessimize
 
     end
 
+    context "creating a gem with a comment" do
+      let(:gem) { Gem.new(Ripper.lex('gem "blah" # It blahs')) }
+      subject { gem }
+
+      its(:name) { should == "blah" }
+
+      context "after setting the version" do
+        before do
+          gem.version = "~> 2.1"
+        end
+
+        its(:to_s) { should == 'gem "blah", "~> 2.1" # It blahs' }
+      end
+
+    end
+
     context "creating a gem using new lines for arguments" do
       let(:gem_string) { <<GEM.strip
 gem "blah",
