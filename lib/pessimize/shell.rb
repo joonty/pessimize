@@ -1,6 +1,6 @@
 require 'pessimize/file_manager'
 require 'pessimize/pessimizer'
-require 'trollop'
+require 'optimist'
 
 module Pessimize
   class Shell
@@ -23,7 +23,7 @@ module Pessimize
     end
 
     def cli_options
-      Trollop::options do
+      Optimist::options do
         version "pessimize #{VERSION} (c) #{Time.now.year} Jon Cairns"
         banner <<-EOS
 Usage: pessimize [options]
@@ -43,7 +43,7 @@ Options:
     def check_options!(options)
       constraints = %w(minor patch)
       unless constraints.include? options[:version_constraint]
-        Trollop::die :version_constraint, "must be one of #{constraints.join("|")}"
+        Optimist::die :version_constraint, "must be one of #{constraints.join("|")}"
       end
     end
 
