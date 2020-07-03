@@ -37,6 +37,7 @@ Options:
 
         opt :version_constraint, "Version constraint ('minor' or 'patch')", default: 'minor', type: :string, short: 'c'
         opt :backup, "Backup existing Gemfile and Gemfile.lock", default: true, type: :boolean, short: 'b'
+        opt :gemspec, "Pessimize gemspec", type: String, short: 's'
       end
     end
 
