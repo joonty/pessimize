@@ -9,7 +9,7 @@
 Anyone who works with a Gemfile, i.e. a project that uses [bundler][1].
 
 ### What does it do?
-Pessimize adds version numbers with the pessimistic constraint operator (`~>`, a.k.a. "spermy" operator) to all gems in your `Gemfile`.
+Pessimize adds version numbers with the pessimistic constraint operator (`~>`) to all gems in your `Gemfile`.
 
 ### Why?
 You should be using `~> x.x` to limit the version numbers of your gems, otherwise `bundle update` could potentially break your application. Read the section on "why bundle update can be dangerous" for a more detailed description, or take a look at the [rubygems explanation][2].
