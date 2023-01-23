@@ -26,7 +26,7 @@ Pessimize works out the version of each gem from `Gemfile.lock` then generates a
 
 You don't need to add it to your Gemfile - it's best kept as a system-wide gem. All you need to do is install it from the command line:
 
-    $ gem install pessimize
+    $ gem install pessimizer
 
 This installs the command line tool `pessimize`.
 
