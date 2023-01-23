@@ -1,6 +1,7 @@
 require 'codeclimate-test-reporter'
 CodeClimate::TestReporter.start
 require 'rspec'
+require 'rspec/its'
 require 'pessimize'
 require 'open3'
 require 'ripper'

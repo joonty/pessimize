@@ -25,7 +25,7 @@ describe "running pessimize" do
 
       context "the Gemfile.backup" do
         it "should be created" do
-          File.exists?(tmp_path + 'Gemfile.backup').should be_true
+          File.exist?(tmp_path + 'Gemfile.backup').should be(true)
         end
 
         it "should be the same as the original Gemfile" do
@@ -63,13 +63,13 @@ describe "running pessimize" do
 
       context "the Gemfile.backup" do
         it "should not exist" do
-          File.exists?(tmp_path + 'Gemfile.backup').should be_false
+          File.exist?(tmp_path + 'Gemfile.backup').should be(false)
         end
       end
 
       context "the Gemfile.lock.backup" do
         it "should not exist" do
-          File.exists?(tmp_path + 'Gemfile.lock.backup').should be_false
+          File.exist?(tmp_path + 'Gemfile.lock.backup').should be(false)
         end
       end
 
