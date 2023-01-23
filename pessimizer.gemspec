@@ -4,15 +4,15 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'pessimize/version'
 
 Gem::Specification.new do |gem|
-  gem.name          = "pessimize"
+  gem.name          = "pessimizer"
   gem.version       = Pessimize::VERSION
-  gem.authors       = ["Jon Cairns"]
-  gem.email         = ["jon@joncairns.com"]
+  gem.authors       = ["Jon Cairns", "Federico Iachetti"]
+  gem.email         = ["jon@joncairns.com", "iachetti.federico@gmail.com"]
   gem.description   = %q{Add the pessimistic constraint operator to all gems in your Gemfile, restricting the maximum update version.
 
 This is for people who work with projects that use bundler, such as rails projects. The pessimistic constraint operator (~>) allows you to specify the maximum version that a gem can be updated, and reduces potential breakages when running `bundle update`. Pessimize automatically retrieves the current versions of your gems, then adds them to your Gemfile (so you don't have to do it by hand).}
   gem.summary       = %q{Add the pessimistic constraint operator to all gems in your Gemfile, restricting the maximum update version.}
-  gem.homepage      = "https://github.com/joonty/pessimize"
+  gem.homepage      = "https://github.com/iachettifederico/pessimizer"
 
   gem.add_dependency 'bundler'
   gem.add_dependency 'optimist'
