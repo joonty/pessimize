@@ -10,10 +10,12 @@ def data_file(name)
   File.new(File.dirname(__FILE__) + '/data/' + name)
 end
 
-RSpec.configure do |c|
-  c.filter_run_excluding :exclude_platform => lambda { |platform|
+RSpec.configure do |config|
+  config.filter_run_excluding :exclude_platform => lambda { |platform|
     RUBY_PLATFORM.to_s == platform.to_s
   }
+
+  config.expect_with(:rspec) { |c| c.syntax = :should }
 end
 
 module IntegrationHelper
