@@ -561,13 +561,13 @@ GIT
   specs:
     pessimize (0.2.0)
       bundler
-      trollop
+      optimist
 
 GEM
   remote: https://rubygems.org/
   specs:
     json (1.8.0)
-    trollop (2.1.2)
+    optimist (3.0.1)
     sqlite3 (1.3.7)
     EOD
 
