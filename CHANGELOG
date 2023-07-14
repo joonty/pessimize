@@ -1,3 +1,6 @@
+=== Pessimize 0.5.0
+* Fix deprecation warnings related to the `trollop` gem being renamed to `optimist`
+
 === Pessimize 0.4.0
 * Specify version of codeclimate-test-reporter to avert a breaking change (introduced in 1.0.0)
 * Fix documentation link for pessimistic operator (issue #19)
