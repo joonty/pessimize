@@ -9,7 +9,7 @@ module Pessimize
     end
 
     def gemfile?
-      File.exists? gemfile
+      File.exist? gemfile
     end
 
     def gemfile_contents
@@ -17,7 +17,7 @@ module Pessimize
     end
 
     def gemfile_lock?
-      File.exists? gemfile_lock
+      File.exist? gemfile_lock
     end
 
     def backup_gemfile!
