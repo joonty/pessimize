@@ -1,3 +1,7 @@
+=== Pessimize 0.5.0
+* Fix deprecation warnings related to the `trollop` gem being renamed to `optimist`
+* Ensure compatibility with Ruby 3.2 by handling the removal of the deprecated `File.exists?` method
+
 === Pessimize 0.4.0
 * Specify version of codeclimate-test-reporter to avert a breaking change (introduced in 1.0.0)
 * Fix documentation link for pessimistic operator (issue #19)
