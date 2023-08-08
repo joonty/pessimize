@@ -1,6 +1,9 @@
 === Pessimize 0.5.0
 * Fix deprecation warnings related to the `trollop` gem being renamed to `optimist`
 * Ensure compatibility with Ruby 3.2 by handling the removal of the deprecated `File.exists?` method
+* Remove potentially NSFW word from Readme (PR #28)
+* Ignore pre-release gems (PR #17)
+* Update versions for development gems, rake and rspec
 
 === Pessimize 0.4.0
 * Specify version of codeclimate-test-reporter to avert a breaking change (introduced in 1.0.0)

@@ -1,6 +1,7 @@
 require 'codeclimate-test-reporter'
 CodeClimate::TestReporter.start
 require 'rspec'
+require 'rspec/its'
 require 'pessimize'
 require 'open3'
 require 'ripper'
@@ -13,6 +14,7 @@ RSpec.configure do |c|
   c.filter_run_excluding :exclude_platform => lambda { |platform|
     RUBY_PLATFORM.to_s == platform.to_s
   }
+  c.expect_with(:rspec) { |config| config.syntax = :should }
 end
 
 module IntegrationHelper
