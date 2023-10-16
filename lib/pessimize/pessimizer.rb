@@ -1,4 +1,5 @@
 require 'pessimize/gemfile'
+require 'pessimize/gemspec'
 require 'pessimize/gemfile_lock_version_parser'
 require 'pessimize/version_mapper'
 
@@ -13,7 +14,8 @@ module Pessimize
     def run
       collect_gems_and_versions
       update_gem_versions
-      write_new_gemfile
+      puts gemfile.to_s
+      # write_new_gemfile
       puts "~> written #{gemfile.gems.length} gems to Gemfile, constrained to #{options[:version_constraint]} version updates\n\n"
     end
 
@@ -24,8 +26,16 @@ module Pessimize
       "\n" * num
     end
 
+    def file_to_pessimize
+      if options[:gemspec]
+        Gemspec.new(File.read(options[:gemspec]))
+      else
+        Gemfile.new(file_manager.gemfile_contents)
+      end
+    end
+
     def collect_gems_and_versions
-      self.gemfile = Gemfile.new(file_manager.gemfile_contents)
+      self.gemfile = file_to_pessimize
       lock_parser.call File.open(file_manager.gemfile_lock)
     end
 
